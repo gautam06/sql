@@ -19,3 +19,26 @@ DELIMITER ;
 /*Drop Trigger
 ------------------------------------*/
 drop trigger updateProductPrice;
+
+/* Create table emp 
+---------------------------------------------------*/
+
+create table emp_del(empid int primary key,
+ename varchar(50) not null,
+job varchar(20),
+mgr int,
+hiredate date,
+salary decimal(7,2),
+deptno int);
+
+/* Trigger for storing deleted record */
+
+DELIMITER $$
+CREATE TRIGGER `deleteEmp`
+After Delete ON `emp`
+FOR EACH ROW
+BEGIN
+	insert into emp_del 
+    values(old.empid,old.ename,old.job,old.mgr,old.hiredate,old.salary,old.deptno);
+END$$
+DELIMITER ;
